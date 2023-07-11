@@ -68,7 +68,12 @@ func routeSubmitPost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := r.ParseMultipartForm(1024); err != nil {
+	if err := r.ParseMultipartForm(1024); err != nil { // argumen 1024 adl maxMemory
+		/*
+			Pemanggilan method tersebut membuat file yang terupload DISIMPAN SEMENTARA pada memory dengan
+			alokasi adalah SESUAI DENGAN maxMemory. Jika ternyata kapasitas yang sudah dialokasikan tersebut TIDAK CUKUP,
+			maka file akan disimpan dalam temporary file.
+		*/
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
@@ -113,17 +118,25 @@ func routeSubmitPost(w http.ResponseWriter, r *http.Request) {
 	if alias != "" {
 		filename = fmt.Sprintf("%s%s", alias, filepath.Ext(handler.Filename))
 		/*
-			Fungsi filepath.Ext digunakan untuk mengambil ekstensi dari sebuah file
+			Fungsi filepath.Ext digunakan untuk MENGAMBIL EKSTENSI dari sebuah file
 
 			Pada kode di atas, handler.Filename yang berisi nama file terupload diambil ekstensinya,
-			LALUI DIGABUNG dengan alias yang sudah terisi.
+			LALU DIGABUNG dengan alias yang sudah terisi.
 		*/
 	}
 
 	fileLocation := filepath.Join(dir, "files", filename)
 	/*
 		Fungsi filepath.Join berguna untuk pembentukan path.
+
+		contoh hasil pembentukan path print fileLocation
+		C:\go\go-web-basic\b13-form-upload\files\main-qimg-2b414536020cd00309f1dc5b4d31e8fe.webp
+
+		bila rename dengan alias
+		C:\go\go-web-basic\b13-form-upload\files\saruman-witch.jpg
+
 	*/
+
 	targetFile, err := os.OpenFile(fileLocation, os.O_WRONLY|os.O_CREATE, 0666)
 	/*
 		Fungsi os.OpenFile digunakan untuk MEMBUKA FILE. Fungsi ini membutuhkan 3 buah parameter:

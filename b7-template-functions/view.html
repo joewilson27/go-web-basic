@@ -1,0 +1,51 @@
+<html>
+    <head>
+        <title>Learning html/template Functions</title>
+    </head>
+    <body>
+      {{/* Fungsi Escape String */}}
+      <p>
+        {{html "<h2>Hello</h2>"}}
+      </p>
+
+      {{/* Fungsi Operator Perbandingan */}}
+      {{ $komparasi := true }}
+      {{if eq $komparasi true }}
+          <p>benar</p>
+      {{end}}
+
+      {{/*gt untuk deteksi apakah nilai di atas 60. 
+        gt merupakan kependekan dari greater than*/}}
+      {{ $value := 75 }}
+      {{if gt $value 60}}
+          <p>lulus</p>
+      {{end}}
+
+      {{if eq .Name "Bruce Wayne"}}
+          <p>I'm the Batman!</p>
+      {{else if ne .Name "Clark Kent"}}
+          <p>I'm neither Batman or Superman</p>
+      {{end}}
+
+      {{/* Pemanggilan Method */}}
+      <p>
+        {{.SayHello "Gotham citizen" "You are our hero!"}}
+      </p>
+
+      {{/* Fungsi len dan index */}}
+      <p>
+        Batman have many friends. {{len .Friends}} of them are:
+        {{index .Friends 0}},
+        {{index .Friends 1}}, and 
+        {{index .Friends 2}}
+      </p>
+
+      {{/* Fungsi Operator Logika */}}
+      {{$cond1 := true}}
+      {{$cond2 := false}}
+
+      {{if or $cond1 $cond2}}
+          <p>Be like Batman!</p>
+      {{end}}
+    </body>
+</html>

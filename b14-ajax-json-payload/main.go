@@ -54,8 +54,9 @@ func handleSave(w http.ResponseWriter, r *http.Request) {
 				Gunakan json.Unmarshal() untuk decode data sumbernya sudah ada di memory.
 
 		*/
+		// anonymous struct
 		payload := struct {
-			Name   string `json:"namex"`  // namex dari payload
+			Name   string `json:"namex"`  // namex dari payload, kalo misalnya nama key property SAMA dengan nama payload yg dikirim, ga usah pakai `json:"namex"`
 			Age    int    `json:"age"`    // age dari payload
 			Gender string `json:"gender"` // gender dari payload
 		}{}

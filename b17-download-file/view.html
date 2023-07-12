@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Download file</title>
+        <script>
+          function Xo() {
+            var self = this;
+            var $ul = document.getElementById("list-files");
+
+            // Closure renderData() bertugas untuk melakukan rendering data JSON ke HTML.
+            var renderData = function (res) {
+              res.forEach(function (each) {
+                var $li = document.createElement("li");
+                var $a = document.createElement("a");
+
+                $li.innerText = "download ";
+                $li.appendChild($a);
+                $ul.appendChild($li);
+
+                $a.href = "/download?path=" + encodeURI(each.path);
+                $a.innerText = each.filename;
+                $a.target = "_blank";
+              });
+            };
+
+            /*
+             getAllListFiles() memiliki tugas UNTUK REQUEST ke back end, MENGAMBIL DATA list semua file.
+             Request dilakukan dalam bentuk AJAX, nilai baliknya adalah data JSON. Setelah data sudah di tangan,
+             fungsi renderData() dipanggil.
+            */
+            var getAllListFiles = function () {
+              var xhr = new XMLHttpRequest();
+              xhr.open("GET", "/list-files");
+              xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                  var json = JSON.parse(xhr.responseText);
+                  renderData(json);
+                }
+              };
+              xhr.send();
+            };
+
+            self.init = function () {
+                getAllListFiles();
+            };
+          };
+
+          window.onload = function () {
+              new Xo().init();
+          };
+        </script>
+    </head>
+    <body>
+        <ul id="list-files"></ul>
+    </body>
+</html>

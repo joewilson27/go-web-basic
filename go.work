@@ -1,7 +1,5 @@
 go 1.20
 
 use (
-	./b18-http-basic-auth
-	./b19-middleware
-	./b20-custom-multiplexer
+	./b22-simple-configuration
 )
